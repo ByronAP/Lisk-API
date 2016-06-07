@@ -1,4 +1,6 @@
 ﻿//https://lisk.io/documentation?i=lisk-docs/APIReference
+//Author: Allen Byron Penner
+// BIP39 can be found at https://github.com/ByronAP/BIP39.NET-Portable
 
 using System;
 using System.Collections.Generic;
