@@ -1,4 +1,4 @@
-# Lisk-API
-Lisk API implemented in c#
+# Lisk-API (.net Portable )
+Lisk API is a .net PCL (portable class library) written in c#.
 
-Requires BIP39 Portable Library https://github.com/ByronAP/BIP39.NET-Portable
+Uses the BIP39 PCL https://github.com/ByronAP/BIP39.NET-Portable

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Lisk.API")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A portable API library for the Lisk blockchain.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cryptomic")]
 [assembly: AssemblyProduct("Lisk.API")]
@@ -35,5 +35,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.3.*")]

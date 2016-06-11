@@ -4,11 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using BigMath;
 using Bitcoin.BIP39;
 using Lisk.API.Responses;
@@ -25,14 +24,12 @@ namespace Lisk.API
             Server_Url = "https://www.liskwallet.info";
         }
 
-        public LiskAPI(string serverBaseUrl)
-        {
-            User_Agent =
-                "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
-            Server_Url = serverBaseUrl;
-        }
-
-        public LiskAPI(string serverBaseUrl, string userAgent)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serverBaseUrl">The url of the server to connect to such as https://www.liskwallet.info (default) do not include any parameters or slashes, a port is acceptable.</param>
+        /// <param name="userAgent">The user agent to send when making requests to the server. Default is the Google Chrome 41 user agent string.</param>
+        public LiskAPI(string serverBaseUrl = "https://www.liskwallet.info", string userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
         {
             User_Agent = userAgent;
             Server_Url = serverBaseUrl;
@@ -53,7 +50,7 @@ namespace Lisk.API
 
         public async Task<accounts_getBalance_response> Accounts_GetBalance(string address)
         {
-            var url = "/api/accounts/getBalance?address=" + HttpUtility.UrlEncode(address);
+            var url = "/api/accounts/getBalance?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new accounts_getBalance_response {error = gr, success = false};
@@ -62,7 +59,7 @@ namespace Lisk.API
 
         public async Task<accounts_getPublicKey_response> Accounts_GetPublicKey(string address)
         {
-            var url = "/api/accounts/getPublicKey?address=" + HttpUtility.UrlEncode(address);
+            var url = "/api/accounts/getPublicKey?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new accounts_getPublicKey_response {error = gr, success = false};
@@ -81,7 +78,7 @@ namespace Lisk.API
 
         public async Task<accounts_getAccount_response> Accounts_GetAccount(string address)
         {
-            var url = "/api/accounts?address=" + HttpUtility.UrlEncode(address);
+            var url = "/api/accounts?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new accounts_getAccount_response {error = gr, success = false};
@@ -90,7 +87,7 @@ namespace Lisk.API
 
         public async Task<accounts_getDelegates_response> Accounts_GetDelegates(string address)
         {
-            var url = "/api/accounts/delegates?address=" + HttpUtility.UrlEncode(address);
+            var url = "/api/accounts/delegates?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new accounts_getDelegates_response {error = gr, success = false};
@@ -137,20 +134,20 @@ namespace Lisk.API
         {
             var url = "/api/transactions?";
             if (!string.IsNullOrEmpty(blockId))
-                url += "blockId=" + HttpUtility.UrlEncode(blockId);
+                url += "blockId=" + WebUtility.UrlEncode(blockId);
             if (!string.IsNullOrEmpty(senderId))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "senderId=" + HttpUtility.UrlEncode(senderId);
+                    url += "senderId=" + WebUtility.UrlEncode(senderId);
                 else
-                    url += "&senderId=" + HttpUtility.UrlEncode(senderId);
+                    url += "&senderId=" + WebUtility.UrlEncode(senderId);
             }
             if (!string.IsNullOrEmpty(recipientId))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "recipientId=" + HttpUtility.UrlEncode(recipientId);
+                    url += "recipientId=" + WebUtility.UrlEncode(recipientId);
                 else
-                    url += "&recipientId=" + HttpUtility.UrlEncode(recipientId);
+                    url += "&recipientId=" + WebUtility.UrlEncode(recipientId);
             }
             if (url.EndsWith("?") || url.EndsWith("&"))
                 url += "limit=" + limit;
@@ -163,9 +160,9 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(orderBy))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "orderBy=" + WebUtility.UrlEncode(orderBy);
                 else
-                    url += "&orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
@@ -192,7 +189,7 @@ namespace Lisk.API
 
         public async Task<transactions_get_response> Transactions_Get(string id)
         {
-            var url = "/api/transactions/get?id=" + HttpUtility.UrlEncode(id);
+            var url = "/api/transactions/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new transactions_get_response {error = gr, success = false};
@@ -201,7 +198,7 @@ namespace Lisk.API
 
         public async Task<transactions_getUnconfirmed_response> Transactions_GetUnconfirmed(string id)
         {
-            var url = "/api/transactions/unconfirmed?id=" + HttpUtility.UrlEncode(id);
+            var url = "/api/transactions/unconfirmed?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new transactions_getUnconfirmed_response {error = gr, success = false};
@@ -228,9 +225,9 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(os))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "os=" + HttpUtility.UrlEncode(os);
+                    url += "os=" + WebUtility.UrlEncode(os);
                 else
-                    url += "&os=" + HttpUtility.UrlEncode(os);
+                    url += "&os=" + WebUtility.UrlEncode(os);
             }
             if (shared != null)
             {
@@ -242,9 +239,9 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(version))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "version=" + HttpUtility.UrlEncode(version);
+                    url += "version=" + WebUtility.UrlEncode(version);
                 else
-                    url += "&version=" + HttpUtility.UrlEncode(version);
+                    url += "&version=" + WebUtility.UrlEncode(version);
             }
             if (url.EndsWith("?") || url.EndsWith("&"))
                 url += "limit=" + limit;
@@ -260,9 +257,9 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(orderBy))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "orderBy=" + WebUtility.UrlEncode(orderBy);
                 else
-                    url += "&orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
@@ -272,7 +269,7 @@ namespace Lisk.API
 
         public async Task<peers_get_response> Peers_Get(string ip, int port)
         {
-            var url = "/api/peers/get?ip=" + HttpUtility.UrlEncode(ip) + "&port=" + port;
+            var url = "/api/peers/get?ip=" + WebUtility.UrlEncode(ip) + "&port=" + port;
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new peers_get_response {error = gr, success = false};
@@ -290,7 +287,7 @@ namespace Lisk.API
 
         public async Task<blocks_get_response> Blocks_Get(string id)
         {
-            var url = "/api/blocks/get?id=" + HttpUtility.UrlEncode(id);
+            var url = "/api/blocks/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new blocks_get_response {error = gr, success = false};
@@ -303,7 +300,7 @@ namespace Lisk.API
         {
             var url = "/api/blocks?";
             if (!string.IsNullOrEmpty(generatorPublicKey))
-                url += "generatorPublicKey=" + HttpUtility.UrlEncode(generatorPublicKey);
+                url += "generatorPublicKey=" + WebUtility.UrlEncode(generatorPublicKey);
             if (height != null && height >= 0)
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
@@ -349,9 +346,9 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(orderBy))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "orderBy=" + WebUtility.UrlEncode(orderBy);
                 else
-                    url += "&orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
@@ -381,7 +378,7 @@ namespace Lisk.API
             string generatorPublicKey)
         {
             var url = "/api/delegates/forging/getForgedByAccount?generatorPublicKey=" +
-                      HttpUtility.UrlEncode(generatorPublicKey);
+                      WebUtility.UrlEncode(generatorPublicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new delegates_forging_getForgedByAccount_response {error = gr, success = false};
@@ -390,7 +387,7 @@ namespace Lisk.API
 
         public async Task<signatures_get_response> Signatures_Get(string id)
         {
-            var url = "/api/signatures/get?id=" + HttpUtility.UrlEncode(id);
+            var url = "/api/signatures/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new signatures_get_response {error = gr, success = false};
@@ -453,9 +450,9 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(orderBy))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "orderBy=" + WebUtility.UrlEncode(orderBy);
                 else
-                    url += "&orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
@@ -465,7 +462,7 @@ namespace Lisk.API
 
         public async Task<delegates_get_response> Delegates_Get(string publicKey)
         {
-            var url = "/api/delegates/get?publicKey=" + HttpUtility.UrlEncode(publicKey);
+            var url = "/api/delegates/get?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new delegates_get_response {error = gr, success = false};
@@ -474,7 +471,7 @@ namespace Lisk.API
 
         public async Task<delegates_getVotes_response> Delegates_GetVotes(string address)
         {
-            var url = "/api/accounts/delegates/?address=" + HttpUtility.UrlEncode(address);
+            var url = "/api/accounts/delegates/?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new delegates_getVotes_response {error = gr, success = false};
@@ -483,7 +480,7 @@ namespace Lisk.API
 
         public async Task<delegates_getVoters_response> Delegates_GetVoters(string publicKey)
         {
-            var url = "/api/delegates/voters?publicKey=" + HttpUtility.UrlEncode(publicKey);
+            var url = "/api/delegates/voters?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new delegates_getVoters_response {error = gr, success = false};
@@ -579,9 +576,9 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(orderBy))
             {
                 if (url.EndsWith("?") || url.EndsWith("&"))
-                    url += "orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "orderBy=" + WebUtility.UrlEncode(orderBy);
                 else
-                    url += "&orderBy=" + HttpUtility.UrlEncode(orderBy);
+                    url += "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
@@ -591,7 +588,7 @@ namespace Lisk.API
 
         public async Task<dapps_get_response> Dapps_Get(string id)
         {
-            var url = "/api/dapps/get?id=" + HttpUtility.UrlEncode(id);
+            var url = "/api/dapps/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new dapps_get_response {error = gr, success = false};
@@ -600,7 +597,7 @@ namespace Lisk.API
 
         public async Task<dapps_search_response> Dapps_Search(string query, int category, bool installed = false)
         {
-            var url = "/api/dapps/search?q=" + HttpUtility.UrlEncode(query) + "&category=" + category + "&installed=" +
+            var url = "/api/dapps/search?q=" + WebUtility.UrlEncode(query) + "&category=" + category + "&installed=" +
                       Convert.ToInt32(installed);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
@@ -698,7 +695,7 @@ namespace Lisk.API
 
         public async Task<multisignatures_pending_response> Multisignatures_Pending(string publicKey)
         {
-            var url = "/api/multisignatures/pending?publicKey=" + HttpUtility.UrlEncode(publicKey);
+            var url = "/api/multisignatures/pending?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new multisignatures_pending_response {error = gr, success = false};
@@ -746,7 +743,7 @@ namespace Lisk.API
 
         public async Task<multisignatures_accounts_response> Multisignatures_Accounts(string publicKey)
         {
-            var url = "/api/multisignatures/accounts?publicKey=" + HttpUtility.UrlEncode(publicKey);
+            var url = "/api/multisignatures/accounts?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new multisignatures_accounts_response {error = gr, success = false};
@@ -765,7 +762,7 @@ namespace Lisk.API
             // keep trying until we verify the secret is good or we have passed 12 tries
             trys++;
             // sleep for a second in case this is a temp network issue
-            Thread.Sleep(1000);
+            Task.Delay(1000).Wait();
             if (trys <= 12)
                 goto RETRY;
             throw new Exception("Unable to generate or verify a new BIP39 secret");
