@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Lisk.API")]
-[assembly: AssemblyDescription("A portable API library for the Lisk blockchain.")]
+[assembly: AssemblyTitle("Lisk API")]
+[assembly: AssemblyDescription("A portable API library for the Lisk blockchain. If you use this library in your project please feel free to give me a heads up so I can add it to the list of projects and don't forget to vote for delegate byronp.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cryptomic")]
-[assembly: AssemblyProduct("Lisk.API")]
-[assembly: AssemblyCopyright("Cryptomic © 2016, Byron Allen Penner")]
+[assembly: AssemblyProduct("Lisk API")]
+[assembly: AssemblyCopyright("Cryptomic © 2016 ByronP, Cryptomic, Lisk")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,4 +35,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("0.3.*")]
+[assembly: AssemblyVersion("0.4.*")]
