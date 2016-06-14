@@ -743,6 +743,10 @@ namespace Lisk.API
             return JsonConvert.DeserializeObject<multisignatures_accounts_response>(gr);
         }
 
+        /// <summary>
+        /// Generates a new BIP39 secret. In lisk this is the equivalent of creating a new account.
+        /// </summary>
+        /// <returns>A BIP39 object with the MnemonicSentence which is the secret</returns>
         public async Task<BIP39> GenerateNewSecret()
         {
             var trys = 0;
@@ -761,7 +765,12 @@ namespace Lisk.API
             throw new Exception("Unable to generate or verify a new BIP39 secret");
         }
 
-        public decimal LSKLongToDecimal(string value)
+        /// <summary>
+        /// Converts a Lisk long string value into a decimal which can be used by your program.
+        /// </summary>
+        /// <param name="value">The lisk long string value</param>
+        /// <returns>The value as a decimal</returns>
+        public static decimal LSKLongToDecimal(string value)
         {
             //HACK: but it seems to work
             var div = new BigInteger("100000000");
@@ -777,7 +786,12 @@ namespace Lisk.API
             return decimal.Parse(cstr);
         }
 
-        public BigInteger LSKDecimalToLong(decimal value)
+        /// <summary>
+        /// Converts a decimal value into a biginteger which can be used by Lisk.
+        /// </summary>
+        /// <param name="value">The decimal to convert</param>
+        /// <returns>The value as a biginteger</returns>
+        public static BigInteger LSKDecimalToLong(decimal value)
         {
             //HACK: but it seems to work
             var trc = Math.Truncate(value);
@@ -787,6 +801,17 @@ namespace Lisk.API
 
             var bint = new BigInteger(trc + rem);
             return bint;
+        }
+
+        /// <summary>
+        /// Converts a Lisk timestamp to a datetime object which can be used by your program.
+        /// </summary>
+        /// <param name="timestamp">The Lisk timestamp to convert</param>
+        /// <returns>The value as datetime object</returns>
+        public static DateTime LSKTimestampToDateTime(string timestamp)
+        {
+            var ts = long.Parse(timestamp);
+            return new DateTime(2016, 5, 24, 17, 0, 0, 0).AddSeconds(ts);
         }
 
         private async Task<string> HttpGetRequestAsync(string url, string ua)
