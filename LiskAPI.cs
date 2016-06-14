@@ -17,13 +17,6 @@ namespace Lisk.API
 {
     public class LiskAPI
     {
-        public LiskAPI()
-        {
-            User_Agent =
-                "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
-            Server_Url = "https://www.liskwallet.info";
-        }
-
         /// <summary>
         /// 
         /// </summary>
