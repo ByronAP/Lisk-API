@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -1088,7 +1089,7 @@ namespace Lisk.API
                 cstr = sstr + "." + istr.Substring(0, 8);
             else
                 cstr = sstr + "." + istr;
-            return decimal.Parse(cstr);
+            return decimal.Parse(cstr, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
