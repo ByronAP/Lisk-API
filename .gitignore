@@ -239,3 +239,4 @@ _Pvt_Extensions
 .exe
 *.nuspec
 *.exe
+/BuildNuGet.bat
