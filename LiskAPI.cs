@@ -618,13 +618,13 @@ namespace Lisk.API
         }
 
         /// <summary>
-        /// Get delegate by transaction id.
+        /// Get delegate by public key.
         /// </summary>
-        /// <param name="transactionId">Id of transaction where delegated was putted.</param>
+        /// <param name="publicKey">public key of delegated.</param>
         /// <returns></returns>
-        public async Task<delegates_get_response> Delegates_Get(string transactionId)
+        public async Task<delegates_get_response> Delegates_Get(string publicKey)
         {
-            var url = "/api/delegates/get?transactionId=" + WebUtility.UrlEncode(transactionId);
+            var url = "/api/delegates/get?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
             if (gr.StartsWith("ERROR"))
                 return new delegates_get_response {error = gr, success = false};
