@@ -9,7 +9,7 @@ namespace Lisk.API.Responses
         public decimal approval;
         public long missedBlocks;
         public long producedBlocks;
-        public int productivity;
+        public decimal productivity;
         public string publicKey;
         public int rate;
         public string username;
