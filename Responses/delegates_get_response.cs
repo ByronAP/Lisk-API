@@ -5,6 +5,6 @@ namespace Lisk.API.Responses
     [JsonObject(MemberSerialization = MemberSerialization.Fields)]
     public class delegates_get_response : BaseResponse
     {
-        public Delegate_Object delagate;
+        public Delegate_Object @delegate;
     }
 }

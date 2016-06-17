@@ -1129,7 +1129,8 @@ namespace Lisk.API
 
             if (response.IsSuccessStatusCode)
             {
-                return response.Content.ReadAsStringAsync().Result;
+                var res = await response.Content.ReadAsStringAsync();
+                return res;
             }
             return "ERROR:" + response.StatusCode + " " + response.ReasonPhrase + " | " + response.RequestMessage;
         }
@@ -1146,7 +1147,7 @@ namespace Lisk.API
 
             if (response.IsSuccessStatusCode)
             {
-                return response.Content.ReadAsStringAsync().Result;
+                return await response.Content.ReadAsStringAsync();
             }
             return "ERROR:" + response.StatusCode + " " + response.ReasonPhrase + " | " + response.RequestMessage;
         }
@@ -1162,7 +1163,7 @@ namespace Lisk.API
 
             if (response.IsSuccessStatusCode)
             {
-                return response.Content.ReadAsStringAsync().Result;
+                return await response.Content.ReadAsStringAsync();
             }
             return "ERROR:" + response.StatusCode + " " + response.ReasonPhrase + " | " + response.RequestMessage;
         }
