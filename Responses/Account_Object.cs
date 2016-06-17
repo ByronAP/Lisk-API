@@ -12,6 +12,7 @@ namespace Lisk.API.Responses
         public string secondSignature;
         public string unconfirmedBalance;
         public string unconfirmedSignature;
-        public string username;
+        public object multisignatures;
+        public object u_multisignatures;
     }
 }
