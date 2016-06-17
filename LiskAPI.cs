@@ -1120,6 +1120,23 @@ namespace Lisk.API
             return new DateTime(2016, 5, 24, 17, 0, 0, 0).AddSeconds(ts);
         }
 
+        /// <summary>
+        /// Performs a basic check on an address to help ensure it is valid.
+        /// </summary>
+        /// <param name="address">The address to check</param>
+        /// <returns></returns>
+        public static bool IsAddressValid(string address)
+        {
+            if (address.Contains(" "))
+                return false;
+            var len = address.Length;
+            if (len > 21 || len < 20)
+                return false;
+            if (!address.EndsWith("L"))
+                return false;
+            return true;
+        }
+
         private async Task<string> HttpGetRequestAsync(string url, string ua)
         {
             var client = new HttpClient();
