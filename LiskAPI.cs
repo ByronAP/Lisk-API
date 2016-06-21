@@ -381,7 +381,7 @@ namespace Lisk.API
             }
             if (limit > 0)
             {
-                url += url.EndsWith("?") || url.EndsWith("&") ? "limit=" + totalFee : "&limit=" + totalFee;
+                url += url.EndsWith("?") || url.EndsWith("&") ? "limit=" + limit : "&limit=" + limit;
             }
             if (offset != null && offset > 0)
             {
