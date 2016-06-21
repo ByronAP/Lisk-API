@@ -504,16 +504,12 @@ namespace Lisk.API
         /// <param name="offset">offset to load delegates. Default 0</param>
         /// <param name="orderBy">Order by field</param>
         /// <returns></returns>
-        public async Task<delegates_getList_response> Delegates_GetList(int limit = 20, int? offset = null,
+        public async Task<delegates_getList_response> Delegates_GetList(int limit = 20, int offset = 0,
             string orderBy = "")
         {
             if (limit > 100)
                 limit = 100;
-            var url = "/api/delegates?limit=" + limit;
-            if (offset != null && offset > 0)
-            {
-                url += url.EndsWith("?") || url.EndsWith("&") ? "offset=" + offset : "&offset=" + offset;
-            }
+            var url = "/api/delegates?limit=" + limit + "&offset=" + offset;
             if (!string.IsNullOrEmpty(orderBy))
             {
                 url += url.EndsWith("?") || url.EndsWith("&")
@@ -636,7 +632,7 @@ namespace Lisk.API
         /// <param name="offset">Query offset.</param>
         /// <param name="orderBy">Order by field.</param>
         /// <returns></returns>
-        public async Task<dapps_getList_response> Dapps_GetList(int? category = null, string name = "", int type = 0,
+        public async Task<dapps_getList_response> Dapps_GetList(int? category = null, string name = "", int? type = null,
             string link = "", int limit = 20, int? offset = null, string orderBy = "")
         {
             if (limit > 100)
@@ -648,13 +644,16 @@ namespace Lisk.API
             }
             if (!string.IsNullOrEmpty(name))
             {
-                url += url.EndsWith("?") || url.EndsWith("&") ? "category=" + category : "&category=" + category;
+                url += url.EndsWith("?") || url.EndsWith("&") ? "name=" + name : "&name=" + name;
             }
             if (offset != null && offset > 0)
             {
-                url += url.EndsWith("?") || url.EndsWith("&") ? "name=" + name : "&name=" + name;
+                url += url.EndsWith("?") || url.EndsWith("&") ? "offset=" + offset : "&offset=" + offset;
             }
-            url += url.EndsWith("?") || url.EndsWith("&") ? "type=" + type : "&type=" + type;
+            if (type != null)
+            {
+                url += url.EndsWith("?") || url.EndsWith("&") ? "type=" + type : "&type=" + type;
+            }
             if (!string.IsNullOrEmpty(link))
             {
                 url += url.EndsWith("?") || url.EndsWith("&") ? "link=" + link : "&link=" + link;
