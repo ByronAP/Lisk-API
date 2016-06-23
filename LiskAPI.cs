@@ -937,13 +937,7 @@ namespace Lisk.API
         /// <returns>The value as a biginteger</returns>
         public static BigInteger LSKDecimalToLong(decimal value)
         {
-            var trc = Math.Truncate(value);
-            var rem = value.ToString().Substring(value.ToString().IndexOf('.') + 1);
-            if (rem.Length < 8)
-                rem = rem.PadRight(rem.Length + (8 - rem.Length), '0');
-
-            var bint = new BigInteger(trc + rem);
-            return bint;
+            return new BigInteger(value.ToString("F8").Replace(".", ""));
         }
 
         /// <summary>
