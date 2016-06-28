@@ -1,5 +1,5 @@
 # Lisk-API (.net Portable )
-<img src="https://ci.appveyor.com/api/projects/status/github/ByronAP/Lisk-API"/>
+<img src="https://ci.appveyor.com/api/projects/status/github/ByronAP/Lisk-API?svg=true" width="150"/>
 
 Lisk API is a .net PCL (portable class library) written in c#.
 
