@@ -409,6 +409,17 @@ namespace Lisk.API
         }
 
         /// <summary>
+        /// Get the fees for all actions.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<blocks_getFees_response> Blocks_GetFees()
+        {
+            const string url = "/api/blocks/getFees";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new blocks_getFees_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getFees_response>(gr);
+        }
+
+        /// <summary>
         /// Get blockchain height.
         /// </summary>
         /// <returns></returns>
