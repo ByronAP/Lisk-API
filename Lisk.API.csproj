@@ -54,6 +54,7 @@
     <Compile Include="Responses\blocks_getFee_response.cs" />
     <Compile Include="Responses\blocks_getHeight_response.cs" />
     <Compile Include="Responses\blocks_getList_response.cs" />
+    <Compile Include="Responses\blocks_getNethash_response.cs" />
     <Compile Include="Responses\blocks_get_response.cs" />
     <Compile Include="Responses\Block_Object.cs" />
     <Compile Include="Responses\dapps_categories_response.cs" />

@@ -431,6 +431,17 @@ namespace Lisk.API
         }
 
         /// <summary>
+        /// Get blockchains current nethash.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<blocks_getNethash_response> Blocks_GetNethash()
+        {
+            const string url = "/api/blocks/getNethash";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new blocks_getNethash_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getNethash_response>(gr);
+        }
+
+        /// <summary>
         /// Get amount forged by account.
         /// </summary>
         /// <param name="generatorPublicKey">generator id of block in hex.</param>
