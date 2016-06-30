@@ -57,6 +57,8 @@
     <Compile Include="Responses\blocks_getMilestone_response.cs" />
     <Compile Include="Responses\blocks_getNethash_response.cs" />
     <Compile Include="Responses\blocks_getReward_response.cs" />
+    <Compile Include="Responses\blocks_getStatus_response.cs" />
+    <Compile Include="Responses\blocks_getSupply_response.cs" />
     <Compile Include="Responses\blocks_get_response.cs" />
     <Compile Include="Responses\Block_Object.cs" />
     <Compile Include="Responses\dapps_categories_response.cs" />

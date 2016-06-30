@@ -458,9 +458,31 @@ namespace Lisk.API
         /// <returns></returns>
         public async Task<blocks_getReward_response> Blocks_GetReward()
         {
-            const string url = "/api/blocks/getNethash";
+            const string url = "/api/blocks/getReward";
             var gr = await HttpGetRequestAsync(url, User_Agent);
             return gr.StartsWith("ERROR") ? new blocks_getReward_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getReward_response>(gr);
+        }
+
+        /// <summary>
+        /// Get current total supply.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<blocks_getSupply_response> Blocks_GetSupply()
+        {
+            const string url = "/api/blocks/getSupply";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new blocks_getSupply_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getSupply_response>(gr);
+        }
+
+        /// <summary>
+        /// Get current nodes block status.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<blocks_getStatus_response> Blocks_GetStatus()
+        {
+            const string url = "/api/blocks/getStatus";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new blocks_getStatus_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getStatus_response>(gr);
         }
 
         /// <summary>
