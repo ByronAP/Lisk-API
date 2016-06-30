@@ -533,6 +533,17 @@ namespace Lisk.API
         }
 
         /// <summary>
+        /// Get the fee for a signature.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<signatures_fee_response> Signatures_Fee()
+        {
+            const string url = "/api/signatures/fee";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new signatures_fee_response { error = gr, success = false } : JsonConvert.DeserializeObject<signatures_fee_response>(gr);
+        }
+
+        /// <summary>
         /// Get the total number of registered delegates.
         /// </summary>
         /// <returns></returns>
