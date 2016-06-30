@@ -544,6 +544,17 @@ namespace Lisk.API
         }
 
         /// <summary>
+        /// Gets the current fee for delegate registration.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<delegates_fee_response> Delegates_Fee()
+        {
+            const string url = "/api/delegates/fee";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new delegates_fee_response { error = gr, success = false } : JsonConvert.DeserializeObject<delegates_fee_response>(gr);
+        }
+
+        /// <summary>
         /// Calls for delegates functional.
         /// </summary>
         /// <param name="secret">Secret key of account</param>

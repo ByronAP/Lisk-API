@@ -81,6 +81,7 @@
     <Compile Include="Responses\delegates_forging_disable_response.cs" />
     <Compile Include="Responses\delegates_forging_enable_response.cs" />
     <Compile Include="Responses\delegates_forging_getForgedByAccount_response.cs" />
+    <Compile Include="Responses\delegates_fee_response.cs" />
     <Compile Include="Responses\delegates_getList_response.cs" />
     <Compile Include="Responses\delegates_getVoters_response.cs" />
     <Compile Include="Responses\delegates_getVotes_response.cs" />
