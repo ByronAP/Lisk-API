@@ -68,6 +68,7 @@
     <Compile Include="Responses\dapps_installed_response.cs" />
     <Compile Include="Responses\dapps_installing_response.cs" />
     <Compile Include="Responses\dapps_install_response.cs" />
+    <Compile Include="Responses\dapps_ismasterpasswordenabled_response.cs" />
     <Compile Include="Responses\dapps_launched_response.cs" />
     <Compile Include="Responses\dapps_launch_response.cs" />
     <Compile Include="Responses\dapps_register_response.cs" />

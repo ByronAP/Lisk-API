@@ -746,6 +746,17 @@ namespace Lisk.API
         }
 
         /// <summary>
+        /// Gets whether the master password is enabled.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<dapps_ismasterpasswordenabled_response> Dapps_isMasterPasswordEnabled()
+        {
+            var url = "/api/dapps/ismasterpasswordenabled";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new dapps_ismasterpasswordenabled_response { error = gr, success = false } : JsonConvert.DeserializeObject<dapps_ismasterpasswordenabled_response>(gr);
+        }
+
+        /// <summary>
         /// Gets a specific app by id.
         /// </summary>
         /// <param name="id">Id of app.</param>
