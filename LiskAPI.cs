@@ -533,7 +533,7 @@ namespace Lisk.API
         }
 
         /// <summary>
-        /// TODO
+        /// Get the total number of registered delegates.
         /// </summary>
         /// <returns></returns>
         public async Task<delegates_count_response> Delegates_Count()
