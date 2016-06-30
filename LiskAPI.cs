@@ -431,7 +431,18 @@ namespace Lisk.API
         }
 
         /// <summary>
-        /// Get blockchains current nethash.
+        /// Get current milestone.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<blocks_getMilestone_response> Blocks_GetMilestone()
+        {
+            const string url = "/api/blocks/getMilestone";
+            var gr = await HttpGetRequestAsync(url, User_Agent);
+            return gr.StartsWith("ERROR") ? new blocks_getMilestone_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getMilestone_response>(gr);
+        }
+
+        /// <summary>
+        /// Get current nodes nethash (genesis block id).
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getNethash_response> Blocks_GetNethash()
