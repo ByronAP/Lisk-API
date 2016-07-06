@@ -7,5 +7,6 @@ namespace Lisk.API.Responses
     public class delegates_getList_response : BaseResponse
     {
         public List<Delegate_Object> delegates;
+        public int totalCount;
     }
 }

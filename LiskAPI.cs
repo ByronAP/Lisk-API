@@ -628,19 +628,8 @@ namespace Lisk.API
         /// <returns></returns>
         public async Task<delegates_count_response> Delegates_Count()
         {
-            var i = 0;
-            var dels = new List<Delegate_Object>();
-            RETRY:
-            var tdels = await Delegates_GetList(100, i);
-            if (!tdels.success)
-                return new delegates_count_response {count = 0, error = tdels.error, success = false};
-            dels.AddRange(tdels.delegates);
-            if (tdels.delegates.Count >= 100)
-            {
-                i += 100;
-                goto RETRY;
-            }
-            return new delegates_count_response {count = dels.Count, error = "", success = true};
+            var tdels = await Delegates_GetList(1);
+            return !tdels.success ? new delegates_count_response {count = 0, error = tdels.error, success = false} : new delegates_count_response {count = tdels.totalCount, error = "", success = true};
         }
 
         /// <summary>
