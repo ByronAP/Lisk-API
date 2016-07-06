@@ -19,11 +19,18 @@ namespace Lisk.API
     public class LiskAPI
     {
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="serverBaseUrl">The url of the server to connect to such as https://www.liskwallet.info (default) do not include any parameters or slashes, a port is acceptable.</param>
-        /// <param name="userAgent">The user agent to send when making requests to the server. Default is the Google Chrome 41 user agent string.</param>
-        public LiskAPI(string serverBaseUrl = "https://www.liskwallet.info", string userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+        /// <param name="serverBaseUrl">
+        ///     The url of the server to connect to such as https://www.liskwallet.info (default) do not
+        ///     include any parameters or slashes, a port is acceptable.
+        /// </param>
+        /// <param name="userAgent">
+        ///     The user agent to send when making requests to the server. Default is the Google Chrome 41 user
+        ///     agent string.
+        /// </param>
+        public LiskAPI(string serverBaseUrl = "https://www.liskwallet.info",
+            string userAgent =
+                "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
         {
             User_Agent = userAgent;
             Server_Url = serverBaseUrl;
@@ -33,7 +40,7 @@ namespace Lisk.API
         public string Server_Url { get; set; }
 
         /// <summary>
-        /// Get information about an account.
+        ///     Get information about an account.
         /// </summary>
         /// <param name="secret">secret key of account</param>
         /// <returns></returns>
@@ -42,11 +49,13 @@ namespace Lisk.API
             const string url = "/api/accounts/open";
             var postdata = new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("secret", secret)};
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new accounts_open_response {error = pr, success = false} : JsonConvert.DeserializeObject<accounts_open_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new accounts_open_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<accounts_open_response>(pr);
         }
 
         /// <summary>
-        /// Get the balance of an account.
+        ///     Get the balance of an account.
         /// </summary>
         /// <param name="address">Address of the account</param>
         /// <returns></returns>
@@ -54,11 +63,13 @@ namespace Lisk.API
         {
             var url = "/api/accounts/getBalance?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new accounts_getBalance_response {error = gr, success = false} : JsonConvert.DeserializeObject<accounts_getBalance_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new accounts_getBalance_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<accounts_getBalance_response>(gr);
         }
 
         /// <summary>
-        /// Get the public key of an account. If the account does not exist the API call will return an error.
+        ///     Get the public key of an account. If the account does not exist the API call will return an error.
         /// </summary>
         /// <param name="address"> Address of account</param>
         /// <returns></returns>
@@ -66,11 +77,13 @@ namespace Lisk.API
         {
             var url = "/api/accounts/getPublicKey?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new accounts_getPublicKey_response {error = gr, success = false} : JsonConvert.DeserializeObject<accounts_getPublicKey_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new accounts_getPublicKey_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<accounts_getPublicKey_response>(gr);
         }
 
         /// <summary>
-        /// Returns the public key of the provided secret key.
+        ///     Returns the public key of the provided secret key.
         /// </summary>
         /// <param name="secret">secret key of account</param>
         /// <returns></returns>
@@ -79,11 +92,13 @@ namespace Lisk.API
             const string url = "/api/accounts/generatePublicKey";
             var postdata = new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("secret", secret)};
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new accounts_generatePublicKey_response {error = pr, success = false} : JsonConvert.DeserializeObject<accounts_generatePublicKey_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new accounts_generatePublicKey_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<accounts_generatePublicKey_response>(pr);
         }
 
         /// <summary>
-        /// Return account information of an address.
+        ///     Return account information of an address.
         /// </summary>
         /// <param name="address">Address of account</param>
         /// <returns></returns>
@@ -91,11 +106,13 @@ namespace Lisk.API
         {
             var url = "/api/accounts?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new accounts_getAccount_response {error = gr, success = false} : JsonConvert.DeserializeObject<accounts_getAccount_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new accounts_getAccount_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<accounts_getAccount_response>(gr);
         }
 
         /// <summary>
-        /// Returns delegate accounts by address.
+        ///     Returns delegate accounts by address.
         /// </summary>
         /// <param name="address">Address of account</param>
         /// <returns></returns>
@@ -103,18 +120,24 @@ namespace Lisk.API
         {
             var url = "/api/accounts/delegates?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new accounts_getDelegates_response {error = gr, success = false} : JsonConvert.DeserializeObject<accounts_getDelegates_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new accounts_getDelegates_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<accounts_getDelegates_response>(gr);
         }
 
         /// <summary>
-        /// Vote for the selected delegates. Maximum of 33 delegates at once.
+        ///     Vote for the selected delegates. Maximum of 33 delegates at once.
         /// </summary>
         /// <param name="secret">Secret key of account</param>
-        /// <param name="delegates">Array of string in the following format: ["+DelegatePublicKey"] OR ["-DelegatePublicKey"]. Use + to UPvote, - to DOWNvote</param>
+        /// <param name="delegates">
+        ///     Array of string in the following format: ["+DelegatePublicKey"] OR ["-DelegatePublicKey"]. Use
+        ///     + to UPvote, - to DOWNvote
+        /// </param>
         /// <param name="publicKey">Public key of sender account, to verify secret passphrase in wallet. Optional, only for UI</param>
         /// <param name="secondSecret">Secret key from second transaction, required if user uses second signature</param>
         /// <returns></returns>
-        public async Task<accounts_putDelegates_response> Accounts_PutDelegates(string secret, string delegates, string publicKey = "", string secondSecret = "")
+        public async Task<accounts_putDelegates_response> Accounts_PutDelegates(string secret, string delegates,
+            string publicKey = "", string secondSecret = "")
         {
             const string url = "/api/accounts/delegates";
             var sb = new StringBuilder();
@@ -126,40 +149,49 @@ namespace Lisk.API
             sb.Append("}");
 
             var pr = await HttpPutRequestAsync(url, User_Agent, sb.ToString());
-            return pr.StartsWith("ERROR") ? new accounts_putDelegates_response {error = pr, success = false} : JsonConvert.DeserializeObject<accounts_putDelegates_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new accounts_putDelegates_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<accounts_putDelegates_response>(pr);
         }
 
         /// <summary>
-        /// Get the loading status of the client.
+        ///     Get the loading status of the client.
         /// </summary>
         /// <returns></returns>
         public async Task<loader_status_response> Loader_Status()
         {
             const string url = "/api/loader/status";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new loader_status_response {error = gr, success = false} : JsonConvert.DeserializeObject<loader_status_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new loader_status_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<loader_status_response>(gr);
         }
 
         /// <summary>
-        /// Get the synchronisation status of the client.
+        ///     Get the synchronisation status of the client.
         /// </summary>
         /// <returns></returns>
         public async Task<loader_status_sync_response> Loader_SyncStatus()
         {
             const string url = "/api/loader/status/sync";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new loader_status_sync_response {error = gr, success = false} : JsonConvert.DeserializeObject<loader_status_sync_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new loader_status_sync_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<loader_status_sync_response>(gr);
         }
 
         /// <summary>
-        /// Transactions list matched by provided parameters.
+        ///     Transactions list matched by provided parameters.
         /// </summary>
         /// <param name="blockId"> Block id of transaction</param>
         /// <param name="senderId">Sender address of transaction</param>
         /// <param name="recipientId">Recipient of transaction</param>
         /// <param name="limit">Limit of transaction to send in response. Default is 20</param>
         /// <param name="offset">Offset to load. Default is 0</param>
-        /// <param name="orderBy">Name of column to order. After column name must go "desc" or "acs" to choose order type, prefix for column name is t_. Example: orderBy=t_timestamp:desc</param>
+        /// <param name="orderBy">
+        ///     Name of column to order. After column name must go "desc" or "acs" to choose order type, prefix
+        ///     for column name is t_. Example: orderBy=t_timestamp:desc
+        /// </param>
         /// <returns></returns>
         public async Task<transactions_getList_response> Transactions_GetList(string blockId = "", string senderId = "",
             string recipientId = "", int limit = 20, int offset = 0, string orderBy = "")
@@ -188,14 +220,19 @@ namespace Lisk.API
                     : "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new transactions_getList_response {error = gr, success = false} : JsonConvert.DeserializeObject<transactions_getList_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new transactions_getList_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<transactions_getList_response>(gr);
         }
 
         /// <summary>
-        /// Send transaction to broadcast network.
+        ///     Send transaction to broadcast network.
         /// </summary>
         /// <param name="secret">Secret key of account</param>
-        /// <param name="amount">Amount of transaction * 10^8. Example: to send 1.1234 LISK, use 112340000 as amount. It is recomended that you use the static converts provided in this class</param>
+        /// <param name="amount">
+        ///     Amount of transaction * 10^8. Example: to send 1.1234 LISK, use 112340000 as amount. It is
+        ///     recomended that you use the static converts provided in this class
+        /// </param>
         /// <param name="recipientId">Recipient of transaction. Address or username.</param>
         /// <param name="publicKey">Public key of sender account, to verify secret passphrase in wallet. Optional, only for UI</param>
         /// <param name="secondSecret">Secret key from second transaction, optional, only required if account uses second signature</param>
@@ -212,11 +249,13 @@ namespace Lisk.API
                 sb.Append(",\"secondSecret\":\"" + secondSecret + "\"");
             sb.Append("}");
             var pr = await HttpPutRequestAsync(url, User_Agent, sb.ToString());
-            return pr.StartsWith("ERROR") ? new transactions_send_response {error = pr, success = false} : JsonConvert.DeserializeObject<transactions_send_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new transactions_send_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<transactions_send_response>(pr);
         }
 
         /// <summary>
-        /// Gets a transaction matched by id.
+        ///     Gets a transaction matched by id.
         /// </summary>
         /// <param name="id">Id string of transaction</param>
         /// <returns></returns>
@@ -224,11 +263,13 @@ namespace Lisk.API
         {
             var url = "/api/transactions/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new transactions_get_response {error = gr, success = false} : JsonConvert.DeserializeObject<transactions_get_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new transactions_get_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<transactions_get_response>(gr);
         }
 
         /// <summary>
-        /// Gets an unconfirmed transaction by id.
+        ///     Gets an unconfirmed transaction by id.
         /// </summary>
         /// <param name="id">Id string of transaction</param>
         /// <returns></returns>
@@ -236,22 +277,26 @@ namespace Lisk.API
         {
             var url = "/api/transactions/unconfirmed?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new transactions_getUnconfirmed_response {error = gr, success = false} : JsonConvert.DeserializeObject<transactions_getUnconfirmed_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new transactions_getUnconfirmed_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<transactions_getUnconfirmed_response>(gr);
         }
 
         /// <summary>
-        /// Gets a list of unconfirmed transactions.
+        ///     Gets a list of unconfirmed transactions.
         /// </summary>
         /// <returns></returns>
         public async Task<transactions_getListUnconfirmed_response> Transactions_GetListUnconfirmed()
         {
             const string url = "/api/transactions/unconfirmed";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new transactions_getListUnconfirmed_response {error = gr, success = false} : JsonConvert.DeserializeObject<transactions_getListUnconfirmed_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new transactions_getListUnconfirmed_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<transactions_getListUnconfirmed_response>(gr);
         }
 
         /// <summary>
-        /// Get peers list by parameters.
+        ///     Get peers list by parameters.
         /// </summary>
         /// <param name="state">State of peer. 1 - disconnected. 2 - connected. 0 - banned.</param>
         /// <param name="os">OS of peer.</param>
@@ -300,11 +345,13 @@ namespace Lisk.API
                     : "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new peers_getList_response {error = gr, success = false} : JsonConvert.DeserializeObject<peers_getList_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new peers_getList_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<peers_getList_response>(gr);
         }
 
         /// <summary>
-        /// Get peer by ip and port
+        ///     Get peer by ip and port
         /// </summary>
         /// <param name="ip">Ip of peer.</param>
         /// <param name="port">Port of peer.</param>
@@ -313,22 +360,26 @@ namespace Lisk.API
         {
             var url = "/api/peers/get?ip=" + WebUtility.UrlEncode(ip) + "&port=" + port;
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new peers_get_response {error = gr, success = false} : JsonConvert.DeserializeObject<peers_get_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new peers_get_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<peers_get_response>(gr);
         }
 
         /// <summary>
-        /// Get peer version and build time
+        ///     Get peer version and build time
         /// </summary>
         /// <returns></returns>
         public async Task<peers_getVersion_response> Peers_GetVersion()
         {
             const string url = "/api/peers/version";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new peers_getVersion_response {error = gr, success = false} : JsonConvert.DeserializeObject<peers_getVersion_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new peers_getVersion_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<peers_getVersion_response>(gr);
         }
 
         /// <summary>
-        /// Get block by id.
+        ///     Get block by id.
         /// </summary>
         /// <param name="id">Id of block.</param>
         /// <returns></returns>
@@ -336,11 +387,13 @@ namespace Lisk.API
         {
             var url = "/api/blocks/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_get_response {error = gr, success = false} : JsonConvert.DeserializeObject<blocks_get_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_get_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_get_response>(gr);
         }
 
         /// <summary>
-        /// Get all blocks.
+        ///     Get all blocks.
         /// </summary>
         /// <param name="generatorPublicKey">generator id of block in hex.</param>
         /// <param name="height">height of block.</param>
@@ -394,99 +447,117 @@ namespace Lisk.API
                     : "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getList_response {error = gr, success = false} : JsonConvert.DeserializeObject<blocks_getList_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getList_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getList_response>(gr);
         }
 
         /// <summary>
-        /// Get transaction fee for sending "normal" transactions.
+        ///     Get transaction fee for sending "normal" transactions.
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getFee_response> Blocks_GetFee()
         {
             const string url = "/api/blocks/getFee";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getFee_response {error = gr, success = false} : JsonConvert.DeserializeObject<blocks_getFee_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getFee_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getFee_response>(gr);
         }
 
         /// <summary>
-        /// Get the fees for all actions.
+        ///     Get the fees for all actions.
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getFees_response> Blocks_GetFees()
         {
             const string url = "/api/blocks/getFees";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getFees_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getFees_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getFees_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getFees_response>(gr);
         }
 
         /// <summary>
-        /// Get blockchain height.
+        ///     Get blockchain height.
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getHeight_response> Blocks_GetHeight()
         {
             const string url = "/api/blocks/getHeight";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getHeight_response {error = gr, success = false} : JsonConvert.DeserializeObject<blocks_getHeight_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getHeight_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getHeight_response>(gr);
         }
 
         /// <summary>
-        /// Get current milestone.
+        ///     Get current milestone.
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getMilestone_response> Blocks_GetMilestone()
         {
             const string url = "/api/blocks/getMilestone";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getMilestone_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getMilestone_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getMilestone_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getMilestone_response>(gr);
         }
 
         /// <summary>
-        /// Get current nodes nethash (genesis block id).
+        ///     Get current nodes nethash (genesis block id).
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getNethash_response> Blocks_GetNethash()
         {
             const string url = "/api/blocks/getNethash";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getNethash_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getNethash_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getNethash_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getNethash_response>(gr);
         }
 
         /// <summary>
-        /// Get current block reward.
+        ///     Get current block reward.
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getReward_response> Blocks_GetReward()
         {
             const string url = "/api/blocks/getReward";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getReward_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getReward_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getReward_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getReward_response>(gr);
         }
 
         /// <summary>
-        /// Get current total supply.
+        ///     Get current total supply.
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getSupply_response> Blocks_GetSupply()
         {
             const string url = "/api/blocks/getSupply";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getSupply_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getSupply_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getSupply_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getSupply_response>(gr);
         }
 
         /// <summary>
-        /// Get current nodes block status.
+        ///     Get current nodes block status.
         /// </summary>
         /// <returns></returns>
         public async Task<blocks_getStatus_response> Blocks_GetStatus()
         {
             const string url = "/api/blocks/getStatus";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new blocks_getStatus_response { error = gr, success = false } : JsonConvert.DeserializeObject<blocks_getStatus_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new blocks_getStatus_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<blocks_getStatus_response>(gr);
         }
 
         /// <summary>
-        /// Get amount forged by account.
+        ///     Get amount forged by account.
         /// </summary>
         /// <param name="generatorPublicKey">generator id of block in hex.</param>
         /// <returns></returns>
@@ -496,11 +567,13 @@ namespace Lisk.API
             var url = "/api/delegates/forging/getForgedByAccount?generatorPublicKey=" +
                       WebUtility.UrlEncode(generatorPublicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new delegates_forging_getForgedByAccount_response {error = gr, success = false} : JsonConvert.DeserializeObject<delegates_forging_getForgedByAccount_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new delegates_forging_getForgedByAccount_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<delegates_forging_getForgedByAccount_response>(gr);
         }
 
         /// <summary>
-        /// Get second signature of account.
+        ///     Get second signature of account.
         /// </summary>
         /// <param name="id">Id of signature.</param>
         /// <returns></returns>
@@ -508,11 +581,13 @@ namespace Lisk.API
         {
             var url = "/api/signatures/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new signatures_get_response {error = gr, success = false} : JsonConvert.DeserializeObject<signatures_get_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new signatures_get_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<signatures_get_response>(gr);
         }
 
         /// <summary>
-        /// Add second signature to account.
+        ///     Add second signature to account.
         /// </summary>
         /// <param name="secret">secret key of account</param>
         /// <param name="secondSecret">second key of account</param>
@@ -529,50 +604,67 @@ namespace Lisk.API
             sb.Append("}");
 
             var pr = await HttpPutRequestAsync(url, User_Agent, sb.ToString());
-            return pr.StartsWith("ERROR") ? new signatures_add_response {error = pr, success = false} : JsonConvert.DeserializeObject<signatures_add_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new signatures_add_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<signatures_add_response>(pr);
         }
 
         /// <summary>
-        /// Get the fee for a signature.
+        ///     Get the fee for a signature.
         /// </summary>
         /// <returns></returns>
         public async Task<signatures_fee_response> Signatures_Fee()
         {
             const string url = "/api/signatures/fee";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new signatures_fee_response { error = gr, success = false } : JsonConvert.DeserializeObject<signatures_fee_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new signatures_fee_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<signatures_fee_response>(gr);
         }
 
         /// <summary>
-        /// Get the total number of registered delegates.
+        ///     Get the total number of registered delegates.
         /// </summary>
         /// <returns></returns>
         public async Task<delegates_count_response> Delegates_Count()
         {
-            const string url = "/api/delegates/count";
-            var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new delegates_count_response {error = gr, success = false} : JsonConvert.DeserializeObject<delegates_count_response>(gr);
+            var i = 0;
+            var dels = new List<Delegate_Object>();
+            RETRY:
+            var tdels = await Delegates_GetList(100, i);
+            if (!tdels.success)
+                return new delegates_count_response {count = 0, error = tdels.error, success = false};
+            dels.AddRange(tdels.delegates);
+            if (tdels.delegates.Count >= 100)
+            {
+                i += 100;
+                goto RETRY;
+            }
+            return new delegates_count_response {count = dels.Count, error = "", success = true};
         }
 
         /// <summary>
-        /// Gets the current fee for delegate registration.
+        ///     Gets the current fee for delegate registration.
         /// </summary>
         /// <returns></returns>
         public async Task<delegates_fee_response> Delegates_Fee()
         {
             const string url = "/api/delegates/fee";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new delegates_fee_response { error = gr, success = false } : JsonConvert.DeserializeObject<delegates_fee_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new delegates_fee_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<delegates_fee_response>(gr);
         }
 
         /// <summary>
-        /// Calls for delegates functional.
+        ///     Calls for delegates functional.
         /// </summary>
         /// <param name="secret">Secret key of account</param>
         /// <param name="username">Username of delegate. String from 1 to 20 characters.</param>
         /// <param name="secondSecret">Second secret of account</param>
         /// <returns></returns>
-        public async Task<delegates_enable_response> Delegates_Enable(string secret, string username, string secondSecret = "")
+        public async Task<delegates_enable_response> Delegates_Enable(string secret, string username,
+            string secondSecret = "")
         {
             if (username.Trim().Length < 1 || username.Trim().Length > 20)
                 return new delegates_enable_response {error = "Invalid username", success = false, transaction = null};
@@ -582,11 +674,13 @@ namespace Lisk.API
                 json += ",\"secondSecret\":\"" + secondSecret + "\"";
             json += "}";
             var pr = await HttpPutRequestAsync(url, User_Agent, json);
-            return pr.StartsWith("ERROR") ? new delegates_enable_response {error = pr, success = false} : JsonConvert.DeserializeObject<delegates_enable_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new delegates_enable_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<delegates_enable_response>(pr);
         }
 
         /// <summary>
-        /// Get delegates list.
+        ///     Get delegates list.
         /// </summary>
         /// <param name="limit">Limit to show. Integer. Maximum is 100, Default is 20</param>
         /// <param name="offset">offset to load delegates. Default 0</param>
@@ -605,11 +699,13 @@ namespace Lisk.API
                     : "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new delegates_getList_response {error = gr, success = false} : JsonConvert.DeserializeObject<delegates_getList_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new delegates_getList_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<delegates_getList_response>(gr);
         }
 
         /// <summary>
-        /// Get delegate by public key.
+        ///     Get delegate by public key.
         /// </summary>
         /// <param name="publicKey">public key of delegated.</param>
         /// <returns></returns>
@@ -617,11 +713,13 @@ namespace Lisk.API
         {
             var url = "/api/delegates/get?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new delegates_get_response {error = gr, success = false} : JsonConvert.DeserializeObject<delegates_get_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new delegates_get_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<delegates_get_response>(gr);
         }
 
         /// <summary>
-        /// Get votes by account address.
+        ///     Get votes by account address.
         /// </summary>
         /// <param name="address">Address of account.</param>
         /// <returns></returns>
@@ -629,11 +727,13 @@ namespace Lisk.API
         {
             var url = "/api/accounts/delegates/?address=" + WebUtility.UrlEncode(address);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new delegates_getVotes_response {error = gr, success = false} : JsonConvert.DeserializeObject<delegates_getVotes_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new delegates_getVotes_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<delegates_getVotes_response>(gr);
         }
 
         /// <summary>
-        /// Get voters of delegate.
+        ///     Get voters of delegate.
         /// </summary>
         /// <param name="publicKey">Public key of delegate.</param>
         /// <returns></returns>
@@ -641,11 +741,13 @@ namespace Lisk.API
         {
             var url = "/api/delegates/voters?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new delegates_getVoters_response {error = gr, success = false} : JsonConvert.DeserializeObject<delegates_getVoters_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new delegates_getVoters_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<delegates_getVoters_response>(gr);
         }
 
         /// <summary>
-        /// Enable forging.
+        ///     Enable forging.
         /// </summary>
         /// <param name="secret">secret key of delegate account</param>
         /// <returns></returns>
@@ -654,11 +756,13 @@ namespace Lisk.API
             const string url = "/api/delegates/forging/enable";
             var postdata = new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("secret", secret)};
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new delegates_forging_enable_response {error = pr, success = false} : JsonConvert.DeserializeObject<delegates_forging_enable_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new delegates_forging_enable_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<delegates_forging_enable_response>(pr);
         }
 
         /// <summary>
-        /// Disable forging.
+        ///     Disable forging.
         /// </summary>
         /// <param name="secret">secret key of delegate account</param>
         /// <returns></returns>
@@ -667,11 +771,13 @@ namespace Lisk.API
             const string url = "/api/delegates/forging/disable";
             var postdata = new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("secret", secret)};
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new delegates_forging_disable_response {error = pr, success = false} : JsonConvert.DeserializeObject<delegates_forging_disable_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new delegates_forging_disable_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<delegates_forging_disable_response>(pr);
         }
 
         /// <summary>
-        /// Registers a app.
+        ///     Registers a app.
         /// </summary>
         /// <param name="secret">Secret of account.</param>
         /// <param name="name">DApp name.</param>
@@ -706,11 +812,13 @@ namespace Lisk.API
                 sb.Append(",\"icon\":\"" + icon + "\"");
 
             var pr = await HttpPutRequestAsync(url, User_Agent, sb.ToString());
-            return pr.StartsWith("ERROR") ? new dapps_register_response {error = pr, success = false} : JsonConvert.DeserializeObject<dapps_register_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new dapps_register_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<dapps_register_response>(pr);
         }
 
         /// <summary>
-        /// Gets a list of apps registered on the network.
+        ///     Gets a list of apps registered on the network.
         /// </summary>
         /// <param name="category">DApp category.</param>
         /// <param name="name">DApp name.</param>
@@ -753,22 +861,26 @@ namespace Lisk.API
                     : "&orderBy=" + WebUtility.UrlEncode(orderBy);
             }
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_getList_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_getList_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_getList_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_getList_response>(gr);
         }
 
         /// <summary>
-        /// Gets whether the master password is enabled.
+        ///     Gets whether the master password is enabled.
         /// </summary>
         /// <returns></returns>
         public async Task<dapps_ismasterpasswordenabled_response> Dapps_isMasterPasswordEnabled()
         {
             var url = "/api/dapps/ismasterpasswordenabled";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_ismasterpasswordenabled_response { error = gr, success = false } : JsonConvert.DeserializeObject<dapps_ismasterpasswordenabled_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_ismasterpasswordenabled_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_ismasterpasswordenabled_response>(gr);
         }
 
         /// <summary>
-        /// Gets a specific app by id.
+        ///     Gets a specific app by id.
         /// </summary>
         /// <param name="id">Id of app.</param>
         /// <returns></returns>
@@ -776,11 +888,13 @@ namespace Lisk.API
         {
             var url = "/api/dapps/get?id=" + WebUtility.UrlEncode(id);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_get_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_get_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_get_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_get_response>(gr);
         }
 
         /// <summary>
-        /// Searches for apps by keyword(s).
+        ///     Searches for apps by keyword(s).
         /// </summary>
         /// <param name="query">Search criteria.</param>
         /// <param name="category">Category to search within.</param>
@@ -791,11 +905,13 @@ namespace Lisk.API
             var url = "/api/dapps/search?q=" + WebUtility.UrlEncode(query) + "&category=" + category + "&installed=" +
                       Convert.ToInt32(installed);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_search_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_search_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_search_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_search_response>(gr);
         }
 
         /// <summary>
-        /// Installs a app by id on the node.
+        ///     Installs a app by id on the node.
         /// </summary>
         /// <param name="appId">dapp id to install</param>
         /// <returns></returns>
@@ -804,33 +920,39 @@ namespace Lisk.API
             const string url = "/api/dapps/install";
             var postdata = new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("id", appId)};
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new dapps_install_response {error = pr, success = false} : JsonConvert.DeserializeObject<dapps_install_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new dapps_install_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<dapps_install_response>(pr);
         }
 
         /// <summary>
-        /// Returns a list of installed apps on the requested node.
+        ///     Returns a list of installed apps on the requested node.
         /// </summary>
         /// <returns></returns>
         public async Task<dapps_installed_response> Dapps_Insalled()
         {
             const string url = "/api/dapps/installed";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_installed_response { error = gr, success = false } : JsonConvert.DeserializeObject<dapps_installed_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_installed_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_installed_response>(gr);
         }
 
         /// <summary>
-        /// Returns a list of installed app ids on the requested node.
+        ///     Returns a list of installed app ids on the requested node.
         /// </summary>
         /// <returns></returns>
         public async Task<dapps_installedIds_response> Dapps_InsalledIds()
         {
             const string url = "/api/dapps/installedIds";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_installedIds_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_installedIds_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_installedIds_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_installedIds_response>(gr);
         }
 
         /// <summary>
-        /// Uninstalls a app by id from the requested node.
+        ///     Uninstalls a app by id from the requested node.
         /// </summary>
         /// <param name="appId">dapp id to uninstall</param>
         /// <returns></returns>
@@ -839,11 +961,13 @@ namespace Lisk.API
             const string url = "/api/dapps/uninstall";
             var postdata = new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("id", appId)};
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new dapps_uninstall_response {error = pr, success = false} : JsonConvert.DeserializeObject<dapps_uninstall_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new dapps_uninstall_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<dapps_uninstall_response>(pr);
         }
 
         /// <summary>
-        /// Launches a app by id on the requested node.
+        ///     Launches a app by id on the requested node.
         /// </summary>
         /// <param name="appId">dapp id to launch</param>
         /// <param name="params">dapp launch params</param>
@@ -856,55 +980,65 @@ namespace Lisk.API
             if (!string.IsNullOrEmpty(@params))
                 postdata.Add(new KeyValuePair<string, string>("params", @params));
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new dapps_launch_response {error = pr, success = false} : JsonConvert.DeserializeObject<dapps_launch_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new dapps_launch_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<dapps_launch_response>(pr);
         }
 
         /// <summary>
-        /// Returns a list of app ids currently being installed on the requested node.
+        ///     Returns a list of app ids currently being installed on the requested node.
         /// </summary>
         /// <returns></returns>
         public async Task<dapps_installing_response> Dapps_Insalling()
         {
             const string url = "/api/dapps/installing";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_installing_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_installing_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_installing_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_installing_response>(gr);
         }
 
         /// <summary>
-        /// Returns a list of app ids currently being uninstalled on the requested node.
+        ///     Returns a list of app ids currently being uninstalled on the requested node.
         /// </summary>
         /// <returns></returns>
         public async Task<dapps_uninstalling_response> Dapps_Uninstalling()
         {
             const string url = "/api/dapps/uninstalling";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_uninstalling_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_uninstalling_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_uninstalling_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_uninstalling_response>(gr);
         }
 
         /// <summary>
-        /// Returns a list of app ids which are currently launched on the requested node.
+        ///     Returns a list of app ids which are currently launched on the requested node.
         /// </summary>
         /// <returns></returns>
         public async Task<dapps_launched_response> Dapps_Launched()
         {
             const string url = "/api/dapps/launched";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_launched_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_launched_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_launched_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_launched_response>(gr);
         }
 
         /// <summary>
-        /// Returns a full list of app categories.
+        ///     Returns a full list of app categories.
         /// </summary>
         /// <returns></returns>
         public async Task<dapps_categories_response> Dapps_Categories()
         {
             const string url = "/api/dapps/categories";
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new dapps_categories_response {error = gr, success = false} : JsonConvert.DeserializeObject<dapps_categories_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new dapps_categories_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<dapps_categories_response>(gr);
         }
 
         /// <summary>
-        /// Stops a app by id on the requested node.
+        ///     Stops a app by id on the requested node.
         /// </summary>
         /// <param name="appId">dapp id to stop</param>
         /// <returns></returns>
@@ -913,11 +1047,13 @@ namespace Lisk.API
             const string url = "/api/dapps/stop";
             var postdata = new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("id", appId)};
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new dapps_stop_response {error = pr, success = false} : JsonConvert.DeserializeObject<dapps_stop_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new dapps_stop_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<dapps_stop_response>(pr);
         }
 
         /// <summary>
-        /// Return multisig transaction that waiting for your signature.
+        ///     Return multisig transaction that waiting for your signature.
         /// </summary>
         /// <param name="publicKey">Public key of account</param>
         /// <returns></returns>
@@ -925,11 +1061,13 @@ namespace Lisk.API
         {
             var url = "/api/multisignatures/pending?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new multisignatures_pending_response {error = gr, success = false} : JsonConvert.DeserializeObject<multisignatures_pending_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new multisignatures_pending_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<multisignatures_pending_response>(gr);
         }
 
         /// <summary>
-        /// Create a multisignature account.
+        ///     Create a multisignature account.
         /// </summary>
         /// <param name="secret">your secret. string.</param>
         /// <param name="keysGroup">[array of public keys strings]. add '+' before publicKey to add an account or '-' to remove.</param>
@@ -954,17 +1092,20 @@ namespace Lisk.API
                        ",\"keysgroup\":\"" + keysGroup + "\"";
 
             var pr = await HttpPutRequestAsync(url, User_Agent, json);
-            return pr.StartsWith("ERROR") ? new multisignatures_createAccount_response {error = pr, success = false} : JsonConvert.DeserializeObject<multisignatures_createAccount_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new multisignatures_createAccount_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<multisignatures_createAccount_response>(pr);
         }
 
         /// <summary>
-        /// Sign transaction that wait for your signature.
+        ///     Sign transaction that wait for your signature.
         /// </summary>
         /// <param name="secret">your secret. string.</param>
         /// <param name="transactionId">id of transaction to sign</param>
         /// <param name="publicKey">public key of your account</param>
         /// <returns></returns>
-        public async Task<multisignatures_sign_response> Multisignatures_Sign(string secret,string transactionId, string publicKey = "")
+        public async Task<multisignatures_sign_response> Multisignatures_Sign(string secret, string transactionId,
+            string publicKey = "")
         {
             const string url = "/api/multisignatures/sign";
             var postdata = new List<KeyValuePair<string, string>>
@@ -972,15 +1113,17 @@ namespace Lisk.API
                 new KeyValuePair<string, string>("secret", secret),
                 new KeyValuePair<string, string>("transactionId", transactionId)
             };
-            if(!string.IsNullOrEmpty(publicKey))
+            if (!string.IsNullOrEmpty(publicKey))
                 postdata.Add(new KeyValuePair<string, string>("publicKey", publicKey));
 
             var pr = await HttpPostRequestAsync(url, User_Agent, postdata);
-            return pr.StartsWith("ERROR") ? new multisignatures_sign_response {error = pr, success = false} : JsonConvert.DeserializeObject<multisignatures_sign_response>(pr);
+            return pr.StartsWith("ERROR")
+                ? new multisignatures_sign_response {error = pr, success = false}
+                : JsonConvert.DeserializeObject<multisignatures_sign_response>(pr);
         }
 
         /// <summary>
-        /// Get accounts of multisignature.
+        ///     Get accounts of multisignature.
         /// </summary>
         /// <param name="publicKey">Public key of multi-signature account.</param>
         /// <returns></returns>
@@ -988,11 +1131,13 @@ namespace Lisk.API
         {
             var url = "/api/multisignatures/accounts?publicKey=" + WebUtility.UrlEncode(publicKey);
             var gr = await HttpGetRequestAsync(url, User_Agent);
-            return gr.StartsWith("ERROR") ? new multisignatures_accounts_response {error = gr, success = false} : JsonConvert.DeserializeObject<multisignatures_accounts_response>(gr);
+            return gr.StartsWith("ERROR")
+                ? new multisignatures_accounts_response {error = gr, success = false}
+                : JsonConvert.DeserializeObject<multisignatures_accounts_response>(gr);
         }
 
         /// <summary>
-        /// Generates a new BIP39 secret. In lisk this is the equivalent of creating a new account.
+        ///     Generates a new BIP39 secret. In lisk this is the equivalent of creating a new account.
         /// </summary>
         /// <returns>A BIP39 object with the MnemonicSentence which is the secret</returns>
         public async Task<BIP39> GenerateNewSecret()
@@ -1014,7 +1159,7 @@ namespace Lisk.API
         }
 
         /// <summary>
-        /// Converts a Lisk long string value into a decimal which can be used by your program.
+        ///     Converts a Lisk long string value into a decimal which can be used by your program.
         /// </summary>
         /// <param name="value">The lisk long string value</param>
         /// <returns>The value as a decimal</returns>
@@ -1030,7 +1175,7 @@ namespace Lisk.API
         }
 
         /// <summary>
-        /// Converts a decimal value into a biginteger which can be used by Lisk.
+        ///     Converts a decimal value into a biginteger which can be used by Lisk.
         /// </summary>
         /// <param name="value">The decimal to convert</param>
         /// <returns>The value as a biginteger</returns>
@@ -1040,7 +1185,7 @@ namespace Lisk.API
         }
 
         /// <summary>
-        /// Converts a Lisk timestamp to a datetime object which can be used by your program.
+        ///     Converts a Lisk timestamp to a datetime object which can be used by your program.
         /// </summary>
         /// <param name="timestamp">The Lisk timestamp to convert</param>
         /// <returns>The value as datetime object</returns>
@@ -1051,14 +1196,14 @@ namespace Lisk.API
         }
 
         /// <summary>
-        /// Performs a basic check on an address to help ensure it is valid.
+        ///     Performs a basic check on an address to help ensure it is valid.
         /// </summary>
         /// <param name="address">The address to check</param>
         /// <returns></returns>
         public static bool IsAddressValid(string address)
         {
             var len = address.Length;
-            return !address.Contains(" ") && (len <= 21 && len >= 20 && address.EndsWith("L"));
+            return !address.Contains(" ") && len <= 21 && len >= 20 && address.EndsWith("L");
         }
 
         private async Task<string> HttpGetRequestAsync(string url, string ua)
