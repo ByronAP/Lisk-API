@@ -628,6 +628,7 @@ namespace Lisk.API
         /// <returns></returns>
         public async Task<delegates_count_response> Delegates_Count()
         {
+            //TODO: revert this method to use api/delegates/count when the next version of Lisk is released
             var tdels = await Delegates_GetList(1);
             return !tdels.success ? new delegates_count_response {count = 0, error = tdels.error, success = false} : new delegates_count_response {count = tdels.totalCount, error = "", success = true};
         }
