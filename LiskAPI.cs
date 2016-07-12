@@ -1178,11 +1178,11 @@ namespace Lisk.API
         ///     Converts a Lisk timestamp to a datetime object which can be used by your program.
         /// </summary>
         /// <param name="timestamp">The Lisk timestamp to convert</param>
-        /// <returns>The value as datetime object</returns>
+        /// <returns>The value as datetime object (UTC)</returns>
         public static DateTime LSKTimestampToDateTime(string timestamp)
         {
             var ts = long.Parse(timestamp);
-            return new DateTime(2016, 5, 24, 17, 0, 0, 0).AddSeconds(ts);
+            return new DateTime(2016, 5, 24, 17, 0, 0, 0).ToUniversalTime().AddSeconds(ts);
         }
 
         /// <summary>
