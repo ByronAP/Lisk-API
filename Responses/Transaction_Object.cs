@@ -14,8 +14,8 @@ namespace Lisk.API.Responses
         public string senderPublicKey;
         public string signature;
         public object signatures;
-        public string timestamp;
-        public string type;
+        public long timestamp;
+        public int type;
         public object asset;
         public string blockId;
         public long height;
